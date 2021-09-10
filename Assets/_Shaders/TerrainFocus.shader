@@ -63,7 +63,7 @@ Shader "Custom/TerrainFocus"
         float _TerrainHeight, _TerrainOffsetX, _TerrainOffsetZ;
         int _ContourLayerSections;
         float _ContourLayerHeight, _ContourOffset, _ContourLineSize;
-        fixed _ContourAlpha, _ContourSectionAlpha;
+        fixed _ContourAlpha, _ContourSectionAlpha, _ContourEmission;
         fixed4 _ContourColor;
 
         // Radius Fading
@@ -85,7 +85,7 @@ Shader "Custom/TerrainFocus"
                 contourLines = step(singleLayer * _ContourLineSize, contourLines);
                 contourLines = saturate((1.0 - contourLines) - contourLayerFade) + (1.0 - contourLines) * 0.5 * _ContourSectionAlpha;
                 o.Albedo += saturate((contourLines * _ContourColor) * _ContourAlpha);
-                o.Emission = saturate((contourLines * _ContourColor) * _ContourAlpha);
+                o.Emission = saturate((contourLines * _ContourColor) * _ContourAlpha) * _ContourEmission;
                 // Contour Lines Advance -> FXAA
             }
 
